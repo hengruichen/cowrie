@@ -105,3 +105,4 @@ class Output(cowrie.core.output.Output):
             if i.startswith("log_"):
                 del logentry[i]
         self.sendLogs(json.dumps(logentry))
+
