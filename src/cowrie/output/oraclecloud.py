@@ -64,21 +64,21 @@ class Output(cowrie.core.output.Output):
         Initialize Oracle Cloud LoggingClient with user or instance principal authentication
         """
 
-        authtype=CowrieConfig.get("output_oraclecloud", "authtype")
+        auth_type = CowrieConfig.get("output_oraclecloud", "authtype")
      
-        if authtype == "instance_principals":
+        if auth_type == "instance_principals":
             signer = oci.auth.signers.InstancePrincipalsSecurityTokenSigner()
 
             # In the base case, configuration does not need to be provided as the region and tenancy are obtained from the InstancePrincipalsSecurityTokenSigner
             # identity_client = oci.identity.IdentityClient(config={}, signer=signer)
             self.loggingingestion_client = oci.loggingingestion.LoggingClient(config={}, signer=signer)                     
 
-        elif authtype == "user_principals":
-            tenancy_ocid=CowrieConfig.get("output_oraclecloud", "tenancy_ocid")
-            user_ocid=CowrieConfig.get("output_oraclecloud", "user_ocid")
-            region=CowrieConfig.get("output_oraclecloud", "region")
-            fingerprint=CowrieConfig.get("output_oraclecloud", "fingerprint")
-            keyfile=CowrieConfig.get("output_oraclecloud", "keyfile")
+        elif auth_type == "user_principals":
+            tenancy_ocid = CowrieConfig.get("output_oraclecloud", "tenancy_ocid")
+            user_ocid = CowrieConfig.get("output_oraclecloud", "user_ocid")
+            region = CowrieConfig.get("output_oraclecloud", "region")
+            fingerprint = CowrieConfig.get("output_oraclecloud", "fingerprint")
+            keyfile = CowrieConfig.get("output_oraclecloud", "keyfile")
 
             config_with_key_content = {
                 "user": user_ocid,
@@ -105,3 +105,4 @@ class Output(cowrie.core.output.Output):
             if i.startswith("log_"):
                 del logentry[i]
         self.sendLogs(json.dumps(logentry))
+
